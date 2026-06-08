@@ -60,4 +60,21 @@ public class OrderServiceTest {
         double result = orderService.calc(items, "REGULAR"); // 1300  - 50 = 1250
         assertEquals(1250.0, result);
     }
+
+    @Test
+    void testCalcDiscountForNumberMoreThanTenItemsOneProduct() {
+        List<Item> items = Arrays.asList(new Item("Pen", 10.0, 11)); // 11 * 10 = 110 * 0.99 = 108,9
+        double result = orderService.calc(items, "REGULAR");
+        assertEquals(108.9, result);
+    }
+
+    @Test
+    void testCalcDiscountForNumberMoreThanTenItemsDifferentProduct() {
+        List<Item> items = Arrays.asList(
+                new Item("Pen", 10.0, 5), // 5 * 10 = 50
+                new Item("Pencil", 5, 4), // 4 * 5 = 20
+                new Item("Ruler", 20,2)); // 2 * 20 = 40 //50 + 20 + 40 = 110 * 0.99 = 108.9
+        double result = orderService.calc(items, "REGULAR");
+        assertEquals(108.9, result);
+    }
 }
